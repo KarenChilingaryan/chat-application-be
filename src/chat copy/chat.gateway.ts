@@ -1,4 +1,3 @@
-import { Logger } from '@nestjs/common';
 import {
   MessageBody,
   SubscribeMessage,
@@ -6,9 +5,14 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server } from 'socket.io';
-import { Message } from './types';
 
 export const messages = [];
+
+interface Message {
+  userId: string;
+  message: string;
+  timestamp: string;
+}
 
 @WebSocketGateway(8001, { cors: '*' })
 export class ChatGateway {
