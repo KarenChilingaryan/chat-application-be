@@ -6,7 +6,7 @@ import {
     Param,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { User } from './types';
+import { User } from './constants/users.interface';
 
 @Controller('users')
 export class UsersController {

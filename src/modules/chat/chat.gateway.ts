@@ -5,22 +5,18 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server } from 'socket.io';
+import { IMessage } from '../messages/constants/messages.interface';
+import { messages } from './chat.store';
 
-export const messages = [];
+const port = Number(process.env.SOCKET_PORT) || 8001;
 
-interface Message {
-  userId: string;
-  message: string;
-  timestamp: string;
-}
-
-@WebSocketGateway(8001, { cors: '*' })
+@WebSocketGateway(port, { cors: '*' })
 export class ChatGateway {
   @WebSocketServer() server: Server;
 
   @SubscribeMessage('message')
   handleMessage(
-    @MessageBody() message: Message,
+    @MessageBody() message: IMessage,
   ): void {
     messages.push(message);
     this.server.emit('message', message);

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { User } from './types';
+import { User } from './constants/users.interface';
 const users = [];
+
 @Injectable()
 export class UsersService {
     constructor() { }
