@@ -4,9 +4,12 @@ import {
     Post,
     Body,
     Param,
+    UsePipes,
+    ValidationPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './constants/users.interface';
+import { CreateUserDto } from './dtos/create-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -27,9 +30,10 @@ export class UsersController {
     }
 
     @Post()
+    @UsePipes(new ValidationPipe())
     async create(
         @Body()
-        user: User,
+        user: CreateUserDto,
     ): Promise<User> {
         return this.usersService.create(user);
     }

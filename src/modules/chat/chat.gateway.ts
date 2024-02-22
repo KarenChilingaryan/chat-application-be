@@ -7,6 +7,7 @@ import {
 import { Server } from 'socket.io';
 import { IMessage } from '../messages/constants/messages.interface';
 import { messages } from './chat.store';
+import { BadRequestException } from '@nestjs/common';
 
 const port = Number(process.env.SOCKET_PORT) || 8001;
 
@@ -18,7 +19,11 @@ export class ChatGateway {
   handleMessage(
     @MessageBody() message: IMessage,
   ): void {
-    messages.push(message);
-    this.server.emit('message', message);
+    try {
+      this.server.emit('message', message);
+      messages.push(message);
+    } catch (err) {
+      throw new BadRequestException();
+    }
   }
 }
